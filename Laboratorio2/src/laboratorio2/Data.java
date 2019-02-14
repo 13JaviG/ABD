@@ -70,7 +70,7 @@ public class Data {
 			e.printStackTrace();
 			result[0] = "Error";
 				String respuesta =  e.getMessage();
-			//if(respuesta.contains(" command denied")) {
+			if(respuesta.contains(" command denied")) {
 				String asplitear = respuesta.replace(" command denied", "");
 				String[] spliteado = asplitear.split(" ");
 				String Operacion = spliteado[0];
@@ -78,10 +78,10 @@ public class Data {
 				String forwhat = spliteado[4]+" "+spliteado[5]+" "+ spliteado[6];
 				result[1] = Operacion+" "+forwhat+" "+towhom;
 				
-			//}
-			//else {
-			//	result[1] = "Syntax Error";
-			//}
+			}
+			else {
+				result[1] = "Syntax Error";
+			}
 		}
         return result;
     }

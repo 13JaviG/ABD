@@ -40,7 +40,7 @@ public class Interfaz extends JFrame{
 
 	private void initialize() {
 		
-		this.setBounds(100, 100, 460, 700);
+		this.setBounds(100, 100, 480, 700);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -127,19 +127,27 @@ public class Interfaz extends JFrame{
 				// se recoge y ejecuta la consulta
 				// lo resultados se escriben en la interfaz y por consola
 				String sentence = sqlSentenceArea.getText();
-				String info[] = data.consultaActualiza(sentence);
+				String info[] = data.consultaDatos(sentence);
 				if(info[0].equals("Error")){
 					statusField.setText("Failure");
 					notificationArea.setText(" ");
 					informationArea.setText(" ");
-					/*if(info[1].equals("Syntax Error")) {
+					if(info[1].equals("Syntax Error")) {
 						missingPermissionsField.setText("");
 						causeField.setText(info[1]);
 					}
-					else {*/
-						missingPermissionsField.setText(info[1]);
-						causeField.setText("");
-				//	}						
+					else {
+						String[] textosplitted = info[1].split(" ");
+						String stRow = textosplitted[0]+" "+textosplitted[1];
+						String stRows = textosplitted[2]+" "+textosplitted[3];
+						String ndRow = textosplitted[4]+" "+textosplitted[5];
+						String ndRows =	textosplitted[6];
+						missingPermissionsField.append(stRow+"\n");
+						missingPermissionsField.append(stRows+"\n");
+						missingPermissionsField.append(ndRow+"\n");
+						missingPermissionsField.append(ndRows+"\n");
+						causeField.setText("Denied");
+					}					
 				}
 				else {
 				statusField.setText("Ok");
@@ -163,7 +171,7 @@ public class Interfaz extends JFrame{
 				// lo resultados se escriben en la interfaz y por consola
 				String sentence = sqlSentenceArea.getText();
 				String info[] = data.consultaActualiza(sentence);
-				/*if(info[0].equals("Error")){
+				if(info[0].equals("Error")){
 					statusField.setText("Failure");
 					notificationArea.setText(" ");
 					informationArea.setText(" ");
@@ -173,7 +181,7 @@ public class Interfaz extends JFrame{
 					}
 					else {
 						missingPermissionsField.setText(info[1]);
-						causeField.setText("");
+						causeField.setText("Denied");
 					}						
 				}
 				else {
@@ -182,7 +190,7 @@ public class Interfaz extends JFrame{
 				notificationArea.setText(info[1]);
 				System.out.println("information:\n" + info[0] + "\n");
 				System.out.println("notification:\n" + info[1]);
-				}*/
+				}
 			}
 			
 		});
@@ -219,7 +227,7 @@ public class Interfaz extends JFrame{
 		
 		causeField = new JTextField();
 		causeField.setToolTipText(" ");
-		causeField.setBounds(270, 520, 140, 20);
+		causeField.setBounds(270, 520, 160, 20);
 		this.getContentPane().add(causeField);
 		causeField.setEnabled(false);
 		
@@ -229,9 +237,10 @@ public class Interfaz extends JFrame{
 		
 		missingPermissionsField = new JTextArea();
 		missingPermissionsField.setToolTipText(" ");
-		missingPermissionsField.setBounds(270, 550, 140, 50);
+		missingPermissionsField.setBounds(270, 550, 160, 80);
 		this.getContentPane().add(missingPermissionsField);
 		missingPermissionsField.setEnabled(false);
+		missingPermissionsField.setRows(2);
 		
 	}
 	
