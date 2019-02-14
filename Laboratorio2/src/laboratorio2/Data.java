@@ -100,9 +100,22 @@ public class Data {
         try {
 			result[1] = Integer.toString(statement.executeUpdate(pSentence));
         } catch (SQLException e) {
-        	e.printStackTrace();
-			result[1] = e.getMessage();
-        }
+			e.printStackTrace();
+			result[0] = "Error";
+				String respuesta =  e.getMessage();
+			if(respuesta.contains(" command denied")) {
+				String asplitear = respuesta.replace(" command denied", "");
+				String[] spliteado = asplitear.split(" ");
+				String Operacion = spliteado[0];
+				String towhom = spliteado[1]+" "+spliteado[2]+" "+ spliteado[3];
+				String forwhat = spliteado[4]+" "+spliteado[5]+" "+ spliteado[6];
+				result[1] = Operacion+" "+forwhat+" "+towhom;
+				
+			}
+			else {
+				result[1] = "Syntax Error";
+			}
+		}
         return result;
     }
 

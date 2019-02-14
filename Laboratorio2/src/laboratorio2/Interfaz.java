@@ -180,9 +180,17 @@ public class Interfaz extends JFrame{
 						causeField.setText(info[1]);
 					}
 					else {
-						missingPermissionsField.setText(info[1]);
+						String[] textosplitted = info[1].split(" ");
+						String stRow = textosplitted[0]+" "+textosplitted[1];
+						String stRows = textosplitted[2]+" "+textosplitted[3];
+						String ndRow = textosplitted[4]+" "+textosplitted[5];
+						String ndRows =	textosplitted[6];
+						missingPermissionsField.append(stRow+"\n");
+						missingPermissionsField.append(stRows+"\n");
+						missingPermissionsField.append(ndRow+"\n");
+						missingPermissionsField.append(ndRows+"\n");
 						causeField.setText("Denied");
-					}						
+					}					
 				}
 				else {
 				statusField.setText("Ok");
@@ -190,7 +198,7 @@ public class Interfaz extends JFrame{
 				notificationArea.setText(info[1]);
 				System.out.println("information:\n" + info[0] + "\n");
 				System.out.println("notification:\n" + info[1]);
-				}
+			}
 			}
 			
 		});
