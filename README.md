@@ -1,3 +1,3 @@
 # ABD
-Repositorio para los laboratiorios de Administración de Bases de Datos.
+Repositorio para los laboratorios de Administración de Bases de Datos.
 
