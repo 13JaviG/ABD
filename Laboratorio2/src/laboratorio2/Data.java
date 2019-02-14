@@ -1,6 +1,9 @@
 package laboratorio2;
 
 import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,7 +23,8 @@ public class Data {
 			e.printStackTrace();
 		}
 		
-		conn = DriverManager.getConnection("jdbc:mysql://"+pAddress+":"+pPort+"/DBiexpress",pUser,pPass);
+		conn = DriverManager.getConnection("jdbc:mysql://"+pAddress+":"+pPort+"/DBay",pUser,pPass);
+		JOptionPane.showMessageDialog(null, "Conexión establecida \n IP: "+pAddress+" : "+pPort +"\n Usuario: "+pUser+"\n Contraseña: "+pPass);
 		conn.setAutoCommit(true);
 		statement = conn.createStatement();
 	}
@@ -64,7 +68,20 @@ public class Data {
 			result[1] = Integer.toString(rowcount);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			result[1] = e.getMessage();
+			result[0] = "Error";
+				String respuesta =  e.getMessage();
+			//if(respuesta.contains(" command denied")) {
+				String asplitear = respuesta.replace(" command denied", "");
+				String[] spliteado = asplitear.split(" ");
+				String Operacion = spliteado[0];
+				String towhom = spliteado[1]+" "+spliteado[2]+" "+ spliteado[3];
+				String forwhat = spliteado[4]+" "+spliteado[5]+" "+ spliteado[6];
+				result[1] = Operacion+" "+forwhat+" "+towhom;
+				
+			//}
+			//else {
+			//	result[1] = "Syntax Error";
+			//}
 		}
         return result;
     }

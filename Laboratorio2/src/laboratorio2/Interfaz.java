@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -17,6 +18,12 @@ public class Interfaz extends JFrame{
 	private JTextArea sqlSentenceArea;
 	private JTextArea informationArea;
 	private static JTextArea notificationArea;
+	private JLabel statusL;
+	private JLabel causeL;
+	private JLabel missingPermissionsL;
+	private JTextField statusField;
+	private JTextField causeField;
+	private JTextArea missingPermissionsField;
 	public JButton btnLogin;
 	public JButton btnLogout;
 	public JButton btnQuery;
@@ -29,15 +36,16 @@ public class Interfaz extends JFrame{
 	 */
 	public Interfaz() {
 		initialize();
-	}
+	}	
 
 	private void initialize() {
 		
-		this.setBounds(100, 100, 450, 655);
+		this.setBounds(100, 100, 460, 700);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
 		// campo de texto del servidor
+		
 		serverAddrField = new JTextField();
 		serverAddrField.setToolTipText("Server address");
 		serverAddrField.setBounds(20, 30, 100, 20);
@@ -118,12 +126,28 @@ public class Interfaz extends JFrame{
 			public void mouseClicked(MouseEvent arg0) {
 				// se recoge y ejecuta la consulta
 				// lo resultados se escriben en la interfaz y por consola
-				String query = sqlSentenceArea.getText();
-				String[] info = data.consultaDatos(query);
+				String sentence = sqlSentenceArea.getText();
+				String info[] = data.consultaActualiza(sentence);
+				if(info[0].equals("Error")){
+					statusField.setText("Failure");
+					notificationArea.setText(" ");
+					informationArea.setText(" ");
+					/*if(info[1].equals("Syntax Error")) {
+						missingPermissionsField.setText("");
+						causeField.setText(info[1]);
+					}
+					else {*/
+						missingPermissionsField.setText(info[1]);
+						causeField.setText("");
+				//	}						
+				}
+				else {
+				statusField.setText("Ok");
 				informationArea.setText(info[0]);
 				notificationArea.setText(info[1]);
 				System.out.println("information:\n" + info[0] + "\n");
 				System.out.println("notification:\n" + info[1]);
+			}
 			}
 			
 		});
@@ -139,10 +163,26 @@ public class Interfaz extends JFrame{
 				// lo resultados se escriben en la interfaz y por consola
 				String sentence = sqlSentenceArea.getText();
 				String info[] = data.consultaActualiza(sentence);
+				/*if(info[0].equals("Error")){
+					statusField.setText("Failure");
+					notificationArea.setText(" ");
+					informationArea.setText(" ");
+					if(info[1].equals("Syntax Error")) {
+						missingPermissionsField.setText("");
+						causeField.setText(info[1]);
+					}
+					else {
+						missingPermissionsField.setText(info[1]);
+						causeField.setText("");
+					}						
+				}
+				else {
+				statusField.setText("Ok");
 				informationArea.setText(info[0]);
 				notificationArea.setText(info[1]);
 				System.out.println("information:\n" + info[0] + "\n");
 				System.out.println("notification:\n" + info[1]);
+				}*/
 			}
 			
 		});
@@ -153,13 +193,45 @@ public class Interfaz extends JFrame{
 		informationArea.setBounds(15, 260, 400, 150);
 		this.getContentPane().add(informationArea);
 		informationArea.setColumns(10);
+		informationArea.setEnabled(false);
 		
 		// campo de texto de notificaciones
 		notificationArea = new JTextArea();
 		notificationArea.setToolTipText("Notification Area");
-		notificationArea.setBounds(15, 450, 400, 150);
+		notificationArea.setBounds(15, 450, 400, 50);
 		this.getContentPane().add(notificationArea);
 		notificationArea.setColumns(10);
+		notificationArea.setEnabled(false);
+		
+		statusL = new JLabel("Status");
+		statusL.setBounds(15, 520, 50, 20);
+		this.getContentPane().add(statusL);
+		
+		statusField = new JTextField();
+		statusField.setToolTipText(" ");
+		statusField.setBounds(60, 520, 60, 20);
+		this.getContentPane().add(statusField);
+		statusField.setEnabled(false);
+		
+		causeL = new JLabel("Cause");
+		causeL.setBounds(140, 520, 70, 20);
+		this.getContentPane().add(causeL);
+		
+		causeField = new JTextField();
+		causeField.setToolTipText(" ");
+		causeField.setBounds(270, 520, 140, 20);
+		this.getContentPane().add(causeField);
+		causeField.setEnabled(false);
+		
+		missingPermissionsL = new JLabel("Missing Permissions");
+		missingPermissionsL.setBounds(140, 550, 140, 20);
+		this.getContentPane().add(missingPermissionsL);
+		
+		missingPermissionsField = new JTextArea();
+		missingPermissionsField.setToolTipText(" ");
+		missingPermissionsField.setBounds(270, 550, 140, 50);
+		this.getContentPane().add(missingPermissionsField);
+		missingPermissionsField.setEnabled(false);
 		
 	}
 	
